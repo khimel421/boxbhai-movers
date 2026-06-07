@@ -12,7 +12,7 @@ const services = [
     features: ["প্রফেশনাল প্যাকিং", "লোডিং ও আনলোডিং", "নিরাপদ পরিবহন", "সাশ্রয়ী মূল্য"],
     icon: <HomeIcon />,
     imageSlot: "moving",
-    bookingHref: "/book-moving",
+    bookingHref: "/booking",
   },
   {
     id: 2,

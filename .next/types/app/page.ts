@@ -1,4 +1,4 @@
-// File: C:\Users\User\Downloads\boxbhai-movers-v2\boxbhai-movers\app\page.tsx
+// File: C:\Users\HP\boxbhai-movers\app\page.tsx
 import * as entry from '../../../app/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

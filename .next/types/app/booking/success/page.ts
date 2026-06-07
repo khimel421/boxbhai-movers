@@ -1,8 +1,8 @@
-// File: C:\Users\User\Downloads\boxbhai-movers-v2\boxbhai-movers\app\book-moving\page.tsx
-import * as entry from '../../../../app/book-moving/page.js'
+// File: C:\Users\HP\boxbhai-movers\app\booking\success\page.tsx
+import * as entry from '../../../../../app/booking/success/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
-type TEntry = typeof import('../../../../app/book-moving/page.js')
+type TEntry = typeof import('../../../../../app/booking/success/page.js')
 
 // Check that the entry is a valid entry
 checkFields<Diff<{
