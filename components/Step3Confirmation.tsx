@@ -19,32 +19,34 @@ export function Step3Confirmation() {
   
   const handleConfirmBooking = async () => {
     setIsSubmitting(true);
-    
-    // Simulate API call to create booking
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    // Here you would:
-    // 1. Send data to your backend API
-    // 2. Process payment
-    // 3. Send confirmation email/SMS
-    // 4. Create booking record in database
-    
-    const bookingData = {
-      ...firstStep,
-      ...secondStep,
-      bookingId: `SHIFT-${Date.now()}`,
-      status: 'pending',
-      createdAt: new Date().toISOString(),
-    };
-    
-    console.log('Booking confirmed:', bookingData);
-    
-    // Store in session for thank you page
-    sessionStorage.setItem('lastBooking', JSON.stringify(bookingData));
-    
-    // Reset form and redirect to success page
-    resetForm();
-    router.push('/booking/success');
+
+    try {
+      const res = await fetch('/api/bookings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...firstStep, ...secondStep }),
+      });
+
+      const json = await res.json();
+
+      if (!res.ok) {
+        alert('বুকিং সেভ করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।');
+        setIsSubmitting(false);
+        return;
+      }
+
+      sessionStorage.setItem(
+        'lastBooking',
+        JSON.stringify({ ...firstStep, ...secondStep, bookingId: json.bookingId })
+      );
+
+      // Navigate first — resetForm would set currentStep=1 and trigger
+      // the booking page's URL sync effect, overriding this redirect.
+      router.push('/booking/success');
+    } catch {
+      alert('নেটওয়ার্ক সমস্যা। আবার চেষ্টা করুন।');
+      setIsSubmitting(false);
+    }
   };
   
   // Calculate estimated price
@@ -115,7 +117,7 @@ export function Step3Confirmation() {
         <div className="p-4 space-y-2">
           <p>
             <span className="font-medium">Type:</span>{' '}
-            {secondStep.movingType === 'family' ? '🏠 Family' : '🏢 Office'}
+            {secondStep.movingType === 'family' ? '🏠 Family' : secondStep.movingType === 'office' ? '🏢 Office' : '🛏️ Bachelor'}
           </p>
           <p>
             <span className="font-medium">Bedrooms:</span> {secondStep.bedroomCount}
