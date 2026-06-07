@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useBookingStore } from '@/store/bookingStore';
 
 interface BookingData {
   bookingId: string;
@@ -19,6 +20,7 @@ interface BookingData {
 
 export default function SuccessPage() {
   const [booking, setBooking] = useState<BookingData | null>(null);
+  const { resetForm } = useBookingStore();
 
   useEffect(() => {
     const lastBooking = sessionStorage.getItem('lastBooking');
@@ -26,193 +28,101 @@ export default function SuccessPage() {
       setBooking(JSON.parse(lastBooking));
       sessionStorage.removeItem('lastBooking');
     }
+    resetForm();
   }, []);
 
-  const formatDate = (dateStr: string) =>
-    new Date(dateStr).toLocaleDateString('en-BD', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
-
-  const calculatePrice = (b: BookingData) => {
-    const basePrices: Record<string, number> = { '1': 2000, '2': 3500, '3': 5000, '4-6': 8000 };
-    const base = basePrices[b.bedroomCount] ?? 0;
-    const floorCharge = (b.floorOut + b.floorIn) * 200;
-    const officePremium = b.movingType === 'office' ? 1000 : 0;
-    return base + floorCharge + officePremium;
-  };
-
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Top bar */}
-      <div className="bg-blue-600 py-4 px-4 flex items-center gap-2 justify-center">
-        <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-          <svg viewBox="0 0 24 24" fill="#2563EB" className="w-5 h-5">
-            <path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" />
-          </svg>
-        </div>
-        <span className="text-white font-bold text-lg">BoxBhai-Movers</span>
-      </div>
+    <div className="min-h-screen bg-blue-50 flex items-center justify-center px-4 py-10">
+      <div className="w-full max-w-sm bg-white rounded-2xl shadow-lg overflow-hidden">
 
-      <div className="max-w-lg mx-auto px-4 py-10">
-        {/* Success card */}
-        <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-          {/* Green success header */}
-          <div className="bg-green-50 px-6 py-8 text-center border-b border-green-100">
-            <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
-              <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" className="w-10 h-10">
-                <polyline points="20 6 9 17 4 12" />
+        {/* Blue success header */}
+        <div className="bg-blue-600 px-6 pt-8 pb-6 text-center">
+          <div className="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-white">
+            <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" className="w-7 h-7">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+          </div>
+          <h1 className="text-white text-lg font-bold leading-snug mb-1">
+            আপনার তথ্য জমা দেওয়ার জন্য ধন্যবাদ
+          </h1>
+          <p className="text-blue-100 text-xs leading-relaxed">
+            আমরা আপনার মুভিং ডিটেইলস পেয়েছি আমাদের একজন প্রতিনিধি আপনার সাথে যোগাযোগ করবেন
+          </p>
+          <div className="mt-4 bg-white/20 rounded-lg px-4 py-2 inline-block">
+            <span className="text-white font-bold text-sm tracking-wide">
+              অর্ডার নং: {booking?.bookingId ?? 'BXM-00006'}
+            </span>
+          </div>
+        </div>
+
+        {/* Call CTA */}
+        <div className="px-6 py-5 border-b border-gray-100">
+          <div className="bg-gray-50 rounded-xl p-4 text-center">
+            <p className="text-gray-700 font-semibold text-sm mb-2">এখনই কল করুন</p>
+            <a
+              href="tel:+8801631496748"
+              className="flex items-center justify-center gap-2 text-blue-600 font-bold text-2xl hover:text-blue-700 transition-colors"
+            >
+              <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 flex-shrink-0">
+                <path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.46.57 3.58a1 1 0 0 1-.25 1.01l-2.2 2.2z" />
+              </svg>
+              +880 1631-496-748
+            </a>
+            <p className="text-gray-400 text-xs mt-2">
+              আমাদের মুভিং স্পেশালিস্ট আপনাকে সহায়তা করতে প্রস্তুত রয়েছেন!
+            </p>
+          </div>
+        </div>
+
+        {/* Feature badges */}
+        <div className="grid grid-cols-3 gap-3 px-6 py-5 border-b border-gray-100">
+          {/* Expert Support */}
+          <div className="flex flex-col items-center text-center gap-2">
+            <div className="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#2563EB" strokeWidth="1.5" className="w-6 h-6">
+                <circle cx="12" cy="8" r="4" />
+                <path d="M12 14c-5 0-8 2-8 3v1h16v-1c0-1-3-3-8-3z" />
+                <path d="M18 8a6 6 0 0 1-1.5 4" strokeLinecap="round" />
               </svg>
             </div>
-            <h1 className="text-2xl font-bold text-gray-900 mb-1">Booking Confirmed!</h1>
-            <p className="text-gray-500 text-sm">
-              Our team will contact you shortly to confirm the details.
-            </p>
-            {booking && (
-              <div className="mt-4 inline-block bg-blue-600 text-white text-xs font-mono font-semibold px-4 py-1.5 rounded-full tracking-wider">
-                {booking.bookingId}
-              </div>
-            )}
+            <p className="text-gray-600 text-xs leading-tight">এক্সপার্ট সাপোর্ট</p>
           </div>
 
-          {booking ? (
-            <div className="p-6 space-y-5">
-              {/* Customer Info */}
-              <Section title="Customer Details">
-                <Row label="Name" value={booking.name} />
-                <Row label="Phone" value={booking.number} />
-                {booking.email && <Row label="Email" value={booking.email} />}
-                <Row label="Moving Date" value={formatDate(booking.movingDate)} highlight />
-              </Section>
-
-              {/* Locations */}
-              <Section title="Locations">
-                <div className="space-y-3">
-                  <LocationRow
-                    icon={
-                      <svg viewBox="0 0 24 24" fill="none" stroke="#2563EB" strokeWidth="2" className="w-4 h-4">
-                        <circle cx="12" cy="10" r="3" />
-                        <path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z" />
-                      </svg>
-                    }
-                    label="Pickup"
-                    value={booking.pickupLocation}
-                    sub={`Floor ${booking.floorOut}`}
-                  />
-                  <div className="flex justify-center">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" strokeWidth="2" className="w-4 h-4">
-                      <line x1="12" y1="5" x2="12" y2="19" />
-                      <polyline points="19 12 12 19 5 12" />
-                    </svg>
-                  </div>
-                  <LocationRow
-                    icon={
-                      <svg viewBox="0 0 24 24" fill="none" stroke="#16A34A" strokeWidth="2" className="w-4 h-4">
-                        <circle cx="12" cy="10" r="3" />
-                        <path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z" />
-                      </svg>
-                    }
-                    label="Dropoff"
-                    value={booking.dropoffLocation}
-                    sub={`Floor ${booking.floorIn}`}
-                  />
-                </div>
-              </Section>
-
-              {/* Moving Details */}
-              <Section title="Moving Details">
-                <Row
-                  label="Type"
-                  value={booking.movingType === 'family' ? '🏠 Family Shifting' : '🏢 Office Shifting'}
-                />
-                <Row label="Bedrooms" value={`${booking.bedroomCount} BHK`} />
-              </Section>
-
-              {/* Price */}
-              <div className="bg-blue-50 border border-blue-100 rounded-xl p-4 flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-blue-700 font-medium">Estimated Total</p>
-                  <p className="text-xs text-blue-500">GST included · No hidden charges</p>
-                </div>
-                <p className="text-2xl font-bold text-blue-700">
-                  ₹{calculatePrice(booking).toLocaleString()}
-                </p>
-              </div>
+          {/* Verified Service */}
+          <div className="flex flex-col items-center text-center gap-2">
+            <div className="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#2563EB" strokeWidth="1.5" className="w-6 h-6">
+                <path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.35C17.25 22.15 21 17.25 21 12V7L12 2z" />
+                <polyline points="9 12 11 14 15 10" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
             </div>
-          ) : (
-            <div className="p-6 text-center text-gray-400 text-sm py-10">
-              No booking details found.
-            </div>
-          )}
+            <p className="text-gray-600 text-xs leading-tight">ভেরিফাইড সার্ভিস প্রোভাইডার</p>
+          </div>
 
-          {/* Actions */}
-          <div className="px-6 pb-6 space-y-3">
-            <Link
-              href="/booking"
-              className="block w-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-3 rounded-xl text-center transition-colors"
-            >
-              Book Another Move
-            </Link>
-            <Link
-              href="/"
-              className="block w-full border border-gray-200 text-gray-600 hover:bg-gray-50 text-sm font-medium py-3 rounded-xl text-center transition-colors"
-            >
-              Back to Home
-            </Link>
+          {/* 100% Guarantee */}
+          <div className="flex flex-col items-center text-center gap-2">
+            <div className="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#2563EB" strokeWidth="1.5" className="w-6 h-6">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+            </div>
+            <p className="text-gray-600 text-xs leading-tight">১০০% গ্যারান্টি সার্ভিস</p>
           </div>
         </div>
 
-        <p className="text-center text-xs text-gray-400 mt-6">
-          Need help? Call us at{' '}
-          <a href="tel:+8801700000000" className="text-blue-600 hover:underline">
-            +880 1700 000000
-          </a>
-        </p>
-      </div>
-    </div>
-  );
-}
-
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <div>
-      <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">{title}</h3>
-      <div className="bg-gray-50 rounded-xl p-4 space-y-2">{children}</div>
-    </div>
-  );
-}
-
-function Row({ label, value, highlight }: { label: string; value: string; highlight?: boolean }) {
-  return (
-    <div className="flex justify-between items-start gap-4">
-      <span className="text-sm text-gray-500 shrink-0">{label}</span>
-      <span className={`text-sm font-medium text-right ${highlight ? 'text-blue-700' : 'text-gray-800'}`}>
-        {value}
-      </span>
-    </div>
-  );
-}
-
-function LocationRow({
-  icon,
-  label,
-  value,
-  sub,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  value: string;
-  sub: string;
-}) {
-  return (
-    <div className="flex items-start gap-3">
-      <div className="mt-0.5">{icon}</div>
-      <div className="flex-1">
-        <p className="text-xs text-gray-400">{label}</p>
-        <p className="text-sm font-medium text-gray-800">{value}</p>
-        <p className="text-xs text-gray-400">{sub}</p>
+        {/* Home button */}
+        <div className="px-6 py-5">
+          <Link
+            href="/"
+            className="flex items-center justify-center gap-2 w-full border border-gray-200 text-gray-600 hover:bg-gray-50 text-sm font-medium py-3 rounded-xl transition-colors"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+              <polyline points="9 22 9 12 15 12 15 22" />
+            </svg>
+            হোম পেজে ফিরে যান
+          </Link>
+        </div>
       </div>
     </div>
   );

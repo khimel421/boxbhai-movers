@@ -9,18 +9,15 @@ import { SecondStepData } from '@/types/booking';
 import { useRouter } from 'next/navigation';
 
 const step2Schema = z.object({
-  movingType: z.enum(['family', 'office'], {
-    required_error: 'Please select moving type',
-  }),
-  bedroomCount: z.enum(['1', '2', '3', '4-6'], {
-    required_error: 'Please select bedroom count',
-  }),
+  movingType: z.enum(['family', 'office', 'bachelor']),
+  bedroomCount: z.enum(['1', '2', '3', '4-6']),
   floorOut: z.number()
     .min(1, 'Floor must be between 1-10')
     .max(10, 'Floor must be between 1-10'),
   floorIn: z.number()
     .min(1, 'Floor must be between 1-10')
     .max(10, 'Floor must be between 1-10'),
+  notes: z.string().max(500, 'নোট সর্বোচ্চ ৫০০ অক্ষর হতে পারবে').optional(),
 });
 
 type Step2FormData = z.infer<typeof step2Schema>;
@@ -64,44 +61,27 @@ export function Step2Form() {
         <label className="block text-sm font-medium text-gray-700 mb-2">
           Moving Type *
         </label>
-        <div className="grid grid-cols-2 gap-4">
-          <label className={`
-            relative flex cursor-pointer rounded-lg border p-4
-            ${movingType === 'family' ? 'border-blue-500 bg-blue-50' : 'border-gray-300'}
-          `}>
-            <input
-              type="radio"
-              value="family"
-              {...register('movingType')}
-              className="sr-only"
-            />
-            <div className="flex items-center">
-              <div className="text-2xl mr-3">🏠</div>
-              <div>
-                <div className="font-medium">Family</div>
-                <div className="text-sm text-gray-500">Household shifting</div>
+        <div className="grid grid-cols-3 gap-3">
+          {([
+            { value: 'family',   emoji: '🏠', label: 'Family',   sub: 'Household shifting' },
+            { value: 'office',   emoji: '🏢', label: 'Office',   sub: 'Commercial shifting' },
+            { value: 'bachelor', emoji: '🛏️', label: 'Bachelor', sub: 'Single/shared room' },
+          ] as const).map(({ value, emoji, label, sub }) => (
+            <label
+              key={value}
+              className={`relative flex cursor-pointer rounded-lg border p-4 transition-colors
+                ${movingType === value ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:bg-gray-50'}`}
+            >
+              <input type="radio" value={value} {...register('movingType')} className="sr-only" />
+              <div className="flex items-center gap-2">
+                <span className="text-2xl">{emoji}</span>
+                <div>
+                  <div className="font-medium text-sm">{label}</div>
+                  <div className="text-xs text-gray-500">{sub}</div>
+                </div>
               </div>
-            </div>
-          </label>
-          
-          <label className={`
-            relative flex cursor-pointer rounded-lg border p-4
-            ${movingType === 'office' ? 'border-blue-500 bg-blue-50' : 'border-gray-300'}
-          `}>
-            <input
-              type="radio"
-              value="office"
-              {...register('movingType')}
-              className="sr-only"
-            />
-            <div className="flex items-center">
-              <div className="text-2xl mr-3">🏢</div>
-              <div>
-                <div className="font-medium">Office</div>
-                <div className="text-sm text-gray-500">Commercial shifting</div>
-              </div>
-            </div>
-          </label>
+            </label>
+          ))}
         </div>
         {errors.movingType && (
           <p className="mt-1 text-sm text-red-600">{errors.movingType.message}</p>
@@ -184,6 +164,22 @@ export function Step2Form() {
         </div>
       </div>
       
+      {/* Notes */}
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          বিশেষ নোট <span className="text-gray-400 text-xs">(অপশনাল)</span>
+        </label>
+        <textarea
+          {...register('notes')}
+          rows={3}
+          className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white text-gray-800 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition resize-none"
+          placeholder="যেকোনো বিশেষ নির্দেশনা বা তথ্য লিখুন..."
+        />
+        {errors.notes && (
+          <p className="mt-1 text-xs text-red-500">{errors.notes.message}</p>
+        )}
+      </div>
+
       {/* Navigation Buttons */}
       <div className="flex justify-between pt-4">
         <button
