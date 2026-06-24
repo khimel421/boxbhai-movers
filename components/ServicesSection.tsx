@@ -11,7 +11,7 @@ const services = [
       "প্রফেশনাল প্যাকার, মুভার ও লোডারসহ সম্পূর্ণ হোম মুভিং সার্ভিস। ডোর-টু-ডোর সার্ভিস প্রতিটি ধাপে আমি আপনার পাশে।",
     features: ["প্রফেশনাল প্যাকিং", "লোডিং ও আনলোডিং", "নিরাপদ পরিবহন", "সাশ্রয়ী মূল্য"],
     icon: <HomeIcon />,
-    imageSlot: "moving",
+    imageSlot: "shifting_service.jpg",
     bookingHref: "/booking",
   },
   {
@@ -22,7 +22,7 @@ const services = [
       "শুধু ট্রাকই কি প্রয়োজন? আমাদের স্মার্ট প্ল্যাটফর্ম থেকে সঠিক ট্রাক নির্বাচন করুন সহজ, নির্ভরযোগ্য ও সাশ্রয়ী ট্রান্সপোর্ট।",
     features: ["বিভিন্ন আকারের ট্রাক", "ভেরিফাইড ট্রাক", "নিরাপদ পরিবহন", "সাশ্রয়ী মূল্য"],
     icon: <TruckIcon />,
-    imageSlot: "truck",
+    imageSlot: "truck.png",
     bookingHref: "/book-truck",
   },
 ];
@@ -55,7 +55,7 @@ function ServiceCard({ service }: { service: (typeof services)[0] }) {
   return (
     <div className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
       {/* Card header */}
-      <div className="bg-blue-600 text-white px-6 py-4 flex items-center gap-3">
+      <div className="bg-[#023BE2] text-white px-6 py-4 flex items-center gap-3">
         <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
           {service.icon}
         </div>
@@ -67,7 +67,13 @@ function ServiceCard({ service }: { service: (typeof services)[0] }) {
 
       {/* Illustration area */}
       <div className="bg-gray-100 h-52 flex items-center justify-center overflow-hidden">
-        {service.imageSlot === "moving" ? (
+        {service.imageSlot.endsWith(".jpg") || service.imageSlot.endsWith(".png") ? (
+          <img
+            src={`/${service.imageSlot}`}
+            alt={service.title}
+            className="w-full h-full object-cover"
+          />
+        ) : service.imageSlot === "moving" ? (
           <MovingIllustration />
         ) : (
           <TruckCardIllustration />
@@ -99,7 +105,7 @@ function ServiceCard({ service }: { service: (typeof services)[0] }) {
           </button>
           <Link
             href={service.bookingHref}
-            className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 rounded-lg transition-colors text-sm flex items-center justify-center gap-2"
+            className="flex-1 bg-[#023BE2] hover:bg-[#0230c0] text-white font-medium py-2.5 rounded-lg transition-colors text-sm flex items-center justify-center gap-2"
           >
             সার্ভিস বুক করুন
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-4 h-4">

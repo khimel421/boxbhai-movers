@@ -1,6 +1,8 @@
+import Image from "next/image";
+
 export default function HeroSection() {
   return (
-    <section className="bg-gradient-to-br from-blue-700 via-blue-600 to-blue-800 text-white overflow-hidden relative">
+    <section className="bg-gradient-to-br from-[#01207C]  to-[#023BE2] text-white overflow-hidden relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
         <div className="flex flex-col md:flex-row items-center justify-between gap-10">
           {/* Left content */}
@@ -38,24 +40,39 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* Right - Truck illustration placeholder */}
+          {/* Right - Truck images */}
           <div className="flex-1 flex justify-center md:justify-end relative">
-            <div className="relative w-full max-w-sm md:max-w-md">
-              {/* Three truck cards stacked */}
-              <div className="relative h-64 md:h-80">
-                {/* Back truck */}
-                <div className="absolute top-0 right-0 w-56 md:w-72 h-36 md:h-44 bg-blue-500 rounded-2xl shadow-2xl flex items-center justify-center border-2 border-blue-400 opacity-70 rotate-3">
-                  <TruckIllustration size="lg" />
-                </div>
-                {/* Middle truck */}
-                <div className="absolute top-8 right-6 w-56 md:w-72 h-36 md:h-44 bg-blue-400 rounded-2xl shadow-2xl flex items-center justify-center border-2 border-blue-300 opacity-85 rotate-1">
-                  <TruckIllustration size="lg" />
-                </div>
-                {/* Front truck */}
-                <div className="absolute top-16 right-12 w-56 md:w-72 h-36 md:h-44 bg-blue-300 rounded-2xl shadow-2xl flex items-center justify-center border-2 border-white">
-                  <TruckIllustration size="lg" />
-                  <span className="absolute bottom-3 right-3 text-blue-800 font-bold text-sm">BoxBhai</span>
-                </div>
+            <div className="relative w-full max-w-md h-80 md:h-[26rem]">
+              {/* Top-left truck */}
+              <div className="absolute top-0 left-0 w-52 md:w-64 drop-shadow-xl">
+                <Image
+                  src="/truck.png"
+                  alt="BoxBhai Truck"
+                  width={280}
+                  height={180}
+                  className="object-contain"
+                />
+              </div>
+              {/* Top-right truck */}
+              <div className="absolute top-4 right-12 w-52 md:w-64 drop-shadow-xl">
+                <Image
+                  src="/truck.png"
+                  alt="BoxBhai Truck"
+                  width={280}
+                  height={180}
+                  className="object-contain"
+                />
+              </div>
+              {/* Front-center truck (larger) */}
+              <div className="absolute bottom-3 left-[60%] -translate-x-1/2 w-60 md:w-72 drop-shadow-2xl">
+                <Image
+                  src="/truck.png"
+                  alt="BoxBhai Truck"
+                  width={320}
+                  height={200}
+                  className="object-contain"
+                  priority
+                />
               </div>
             </div>
           </div>
@@ -90,26 +107,6 @@ function StatItem({ icon, value, label }: { icon: React.ReactNode; value: string
   );
 }
 
-function TruckIllustration({ size }: { size: "sm" | "lg" }) {
-  const s = size === "lg" ? "w-28 h-20" : "w-20 h-14";
-  return (
-    <svg viewBox="0 0 120 80" className={s} fill="none">
-      {/* Truck body */}
-      <rect x="5" y="20" width="75" height="45" rx="4" fill="#1e40af" />
-      {/* Cab */}
-      <rect x="78" y="32" width="32" height="33" rx="4" fill="#1e3a8a" />
-      {/* Windshield */}
-      <rect x="82" y="35" width="22" height="15" rx="2" fill="#93c5fd" opacity="0.8" />
-      {/* Wheels */}
-      <circle cx="25" cy="67" r="9" fill="#1e3a8a" />
-      <circle cx="25" cy="67" r="5" fill="#60a5fa" />
-      <circle cx="90" cy="67" r="9" fill="#1e3a8a" />
-      <circle cx="90" cy="67" r="5" fill="#60a5fa" />
-      {/* Logo text on body */}
-      <text x="20" y="46" fill="white" fontSize="10" fontWeight="bold" fontFamily="sans-serif">BoxBhai</text>
-    </svg>
-  );
-}
 
 function PeopleIcon() {
   return (
