@@ -41,7 +41,7 @@ export default function HeroSection() {
           </div>
 
           {/* Right - Truck images */}
-          <div className="flex-1 flex justify-center md:justify-end relative">
+          <div className="lg:flex-1 lg:flex justify-center md:justify-end relative hidden ">
             <div className="relative w-full max-w-md h-80 md:h-[26rem]">
               {/* Top-left truck */}
               <div className="absolute top-0 left-0 w-52 md:w-64 drop-shadow-xl">
