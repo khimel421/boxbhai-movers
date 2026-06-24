@@ -14,23 +14,23 @@ const services = [
     imageSlot: "shifting_service.jpg",
     bookingHref: "/booking",
   },
-  {
-    id: 2,
-    tag: "নিরাপদ ট্রান্সপোর্ট সার্ভিস",
-    title: "ট্রাক ভাড়া",
-    description:
-      "শুধু ট্রাকই কি প্রয়োজন? আমাদের স্মার্ট প্ল্যাটফর্ম থেকে সঠিক ট্রাক নির্বাচন করুন সহজ, নির্ভরযোগ্য ও সাশ্রয়ী ট্রান্সপোর্ট।",
-    features: ["বিভিন্ন আকারের ট্রাক", "ভেরিফাইড ট্রাক", "নিরাপদ পরিবহন", "সাশ্রয়ী মূল্য"],
-    icon: <TruckIcon />,
-    imageSlot: "truck.png",
-    bookingHref: "/book-truck",
-  },
+  // {
+  //   id: 2,
+  //   tag: "নিরাপদ ট্রান্সপোর্ট সার্ভিস",
+  //   title: "ট্রাক ভাড়া",
+  //   description:
+  //     "শুধু ট্রাকই কি প্রয়োজন? আমাদের স্মার্ট প্ল্যাটফর্ম থেকে সঠিক ট্রাক নির্বাচন করুন সহজ, নির্ভরযোগ্য ও সাশ্রয়ী ট্রান্সপোর্ট।",
+  //   features: ["বিভিন্ন আকারের ট্রাক", "ভেরিফাইড ট্রাক", "নিরাপদ পরিবহন", "সাশ্রয়ী মূল্য"],
+  //   icon: <TruckIcon />,
+  //   imageSlot: "truck.png",
+  //   bookingHref: "/book-truck",
+  // },
 ];
 
 export default function ServicesSection() {
   return (
     <section className="bg-gray-50 py-16 md:py-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section heading */}
         <h2 className="text-center text-2xl md:text-3xl font-bold text-gray-800 mb-12">
           আমাদের{" "}
@@ -41,7 +41,7 @@ export default function ServicesSection() {
         </h2>
 
         {/* Service cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-1 gap-8">
           {services.map((service) => (
             <ServiceCard key={service.id} service={service} />
           ))}
@@ -100,12 +100,12 @@ function ServiceCard({ service }: { service: (typeof services)[0] }) {
 
         {/* Buttons */}
         <div className="flex gap-3">
-          <button className="flex-1 border border-gray-300 text-gray-700 font-medium py-2.5 rounded-lg hover:bg-gray-50 transition-colors text-sm">
+          {/* <button className="flex-1 border border-gray-300 text-gray-700 font-medium py-2.5 rounded-lg hover:bg-gray-50 transition-colors text-sm">
             বিস্তারিত জানুন
-          </button>
+          </button> */}
           <Link
             href={service.bookingHref}
-            className="flex-1 bg-[#023BE2] hover:bg-[#0230c0] text-white font-medium py-2.5 rounded-lg transition-colors text-sm flex items-center justify-center gap-2"
+            className="flex-1 bg-[#023BE2] hover:bg-[#0230c0] text-white font-medium py-2.5 rounded-lg transition-colors text-sm flex items-center justify-center gap-2 w-[40%]"
           >
             সার্ভিস বুক করুন
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-4 h-4">
