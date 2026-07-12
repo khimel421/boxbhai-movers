@@ -1,5 +1,7 @@
+// app/api/bookings/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
+import { appendToSheet } from '@/lib/googleSheets';
 
 function generateBookingId(): string {
   const num = Math.floor(100000 + Math.random() * 900000);
@@ -45,6 +47,29 @@ export async function POST(req: NextRequest) {
     if (error) {
       console.error('Supabase insert error:', error);
       return NextResponse.json({ error: 'Failed to save booking' }, { status: 500 });
+    }
+
+    // ✅ Push to Google Sheets (non-blocking — won't fail the booking if sheet errors)
+    try {
+      await appendToSheet([
+        new Date().toISOString(),       // Timestamp
+        bookingId,                       // Booking ID
+        name,                            // Name
+        number,                          // Phone
+        email || '',                     // Email
+        movingDate,                      // Moving Date
+        pickupLocation,                  // Pickup
+        dropoffLocation,                 // Dropoff
+        movingType,                      // Moving Type
+        String(bedroomCount),            // Bedrooms
+        String(floorOut || ''),          // Floor Out
+        String(floorIn || ''),           // Floor In
+        notes || '',                     // Notes
+        'pending',                       // Status
+      ]);
+    } catch (sheetError) {
+      // Log but don't fail — Supabase already saved the booking
+      console.error('Google Sheets sync error:', sheetError);
     }
 
     return NextResponse.json({ bookingId: data.booking_id }, { status: 201 });
