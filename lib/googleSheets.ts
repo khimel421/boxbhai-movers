@@ -1,10 +1,11 @@
 import { google } from "googleapis";
 
 export async function appendToSheet(values: string[]) {
-  const credentials = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_JSON || '{}');
-
   const auth = new google.auth.GoogleAuth({
-    credentials,
+    credentials: {
+      client_email: process.env.GOOGLE_CLIENT_EMAIL,
+      private_key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+    },
     scopes: ["https://www.googleapis.com/auth/spreadsheets"],
   });
 
