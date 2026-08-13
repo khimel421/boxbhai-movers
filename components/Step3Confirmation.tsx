@@ -126,11 +126,11 @@ export function Step3Confirmation() {
       </div>
       
       {/* Price Breakdown */}
-      <div className="border rounded-lg overflow-hidden">
+      {/* <div className="border rounded-lg overflow-hidden">
         <div className="bg-gray-50 px-4 py-3 border-b">
           <h3 className="font-semibold text-gray-900">Price Breakdown</h3>
-        </div>
-        <div className="p-4 space-y-2">
+        </div> */}
+        {/* <div className="p-4 space-y-2">
           <div className="flex justify-between">
             <span>Base price ({secondStep.bedroomCount} BHK):</span>
             <span>₹{price - (secondStep.floorOut + secondStep.floorIn) * 200 - (secondStep.movingType === 'office' ? 1000 : 0)}</span>
@@ -154,8 +154,8 @@ export function Step3Confirmation() {
               *GST included. No hidden charges
             </p>
           </div>
-        </div>
-      </div>
+        </div> */}
+      {/* </div> */}
       
       {/* Navigation Buttons */}
       <div className="flex justify-between pt-4">
