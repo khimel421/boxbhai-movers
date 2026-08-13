@@ -49,10 +49,10 @@ export function Step1Form() {
     'w-full px-4 py-3 border border-gray-200 rounded-xl bg-white text-gray-800 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition';
 
   return (
-    <div className="bg-white rounded-2xl shadow-md px-6 py-8 max-w-xl mx-auto">
+    <div>
       {/* Header */}
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-800 mb-1">মুভিং সার্ভিস রিকোয়েস্ট করুন</h2>
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-1">মুভিং সার্ভিস রিকোয়েস্ট করুন</h2>
         <p className="text-gray-500 text-sm">
           সার্ভিস বুক করতে আপনার প্রয়োজনীয় সকল তথ্য জমা দিন আমাদের টিম আপনার সাথে খুব দ্রুত যোগাযোগ করবে
         </p>
@@ -60,7 +60,7 @@ export function Step1Form() {
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {/* Row 1: Name + Phone */}
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               আপনার নাম <span className="text-red-500">*</span>
@@ -88,7 +88,7 @@ export function Step1Form() {
         </div>
 
         {/* Row 2: Date + Email */}
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               কবে মুভ করবেন? <span className="text-red-500">*</span>

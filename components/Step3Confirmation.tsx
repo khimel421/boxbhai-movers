@@ -158,19 +158,19 @@ export function Step3Confirmation() {
       {/* </div> */}
       
       {/* Navigation Buttons */}
-      <div className="flex justify-between pt-4">
+      <div className="flex flex-col-reverse sm:flex-row sm:justify-between gap-3 pt-4">
         <button
           type="button"
           onClick={() => setCurrentStep(2)}
-          className="px-6 py-2 border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full sm:w-auto px-6 py-2 border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           ← Back
         </button>
-        <div className="space-x-3">
+        <div className="flex flex-col sm:flex-row gap-3">
           <button
             type="button"
             onClick={resetForm}
-            className="px-6 py-2 border border-red-300 text-red-700 rounded-md hover:bg-red-50"
+            className="w-full sm:w-auto px-6 py-2 border border-red-300 text-red-700 rounded-md hover:bg-red-50"
           >
             Cancel
           </button>
@@ -178,7 +178,7 @@ export function Step3Confirmation() {
             type="button"
             onClick={handleConfirmBooking}
             disabled={isSubmitting}
-            className="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 disabled:opacity-50"
+            className="w-full sm:w-auto bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 disabled:opacity-50"
           >
             {isSubmitting ? 'Processing...' : 'Confirm Booking ✓'}
           </button>
